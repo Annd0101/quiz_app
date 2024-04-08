@@ -7,9 +7,12 @@ export default function ResultTable() {
 
   useEffect(() => {
     if (effectRunCount < 5) {
-      getServerData("http://localhost:5000/api/result", (res) => {
-        setData(res);
-      });
+      getServerData(
+        "https://quiz-app-backend-l1fn5n0y4-annd0101s-projects.vercel.app/api/result",
+        (res) => {
+          setData(res);
+        }
+      );
       // Increment the effect run counter
       setEffectRunCount(effectRunCount + 1);
     }

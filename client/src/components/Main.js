@@ -11,9 +11,12 @@ export default function Main() {
   const [data, setData] = useState("");
   const [checked, setChecked] = useState(false);
   useEffect(() => {
-    getServerData("http://localhost:5000/api/result", (res) => {
-      setData(res);
-    });
+    getServerData(
+      "https://quiz-app-backend-l1fn5n0y4-annd0101s-projects.vercel.app/api/result",
+      (res) => {
+        setData(res);
+      }
+    );
   }, []);
   function startQuiz() {
     if (inputRef.current?.value) {

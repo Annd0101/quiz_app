@@ -31,7 +31,9 @@ export const usePublishResult = (resultData) => {
       // Fetch existing results
       let data;
       try {
-        data = await getServerData("http://localhost:5000/api/result");
+        data = await getServerData(
+          "https://quiz-app-backend-l1fn5n0y4-annd0101s-projects.vercel.app/api/result"
+        );
       } catch (error) {
         console.error("Error fetching server data:", error);
         return;
@@ -49,7 +51,10 @@ export const usePublishResult = (resultData) => {
 
       // Proceed to post data if the username doesn't exist
       try {
-        await postServerData("http://localhost:5000/api/result", resultData);
+        await postServerData(
+          "https://quiz-app-backend-l1fn5n0y4-annd0101s-projects.vercel.app/api/result",
+          resultData
+        );
         console.log("Data posted successfully.");
       } catch (error) {
         console.error("Error posting server data:", error);
