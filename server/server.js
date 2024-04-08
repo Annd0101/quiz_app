@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
     res.json(error);
   }
 });
+console.log(1);
 
 /** start server only when we have valid connection */
 connect()
