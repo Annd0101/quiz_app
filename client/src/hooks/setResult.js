@@ -1,4 +1,4 @@
-import { postServerData } from "../helper/helper";
+import { postServerData, getServerData } from "../helper/helper";
 import * as Action from "../redux/result_reducer";
 import { useEffect } from "react";
 export const PushAnswer = (result) => async (dispatch) => {
@@ -24,20 +24,38 @@ export const saveTimer = (result) => async (dispatch) => {
 };
 /** insert user data */
 export const usePublishResult = (resultData) => {
-  // Logic to publish result, possibly updating Redux state
-  const { result, username, minutes, seconds } = resultData;
-  (async () => {
-    try {
-      if (result.length !== 0 && !username && !minutes && !seconds)
-        throw new Error("Couldn't get Result");
-      await postServerData(
-        "http://localhost:5000/api/result",
-        resultData,
-        (data) => data
+  useEffect(() => {
+    const fetchDataAndPostIfNecessary = async () => {
+      const { result, username, minutes, seconds } = resultData;
+
+      // Fetch existing results
+      let data;
+      try {
+        data = await getServerData("http://localhost:5000/api/result");
+      } catch (error) {
+        console.error("Error fetching server data:", error);
+        return;
+      }
+
+      // Check if username exists
+      const usernameExists = data.some(
+        (dataItem) => dataItem.username === username
       );
-      return true;
-    } catch (error) {
-      console.log(error);
-    }
-  })();
+
+      if (usernameExists) {
+        console.log("Username exists. Not calling postServerData.");
+        return;
+      }
+
+      // Proceed to post data if the username doesn't exist
+      try {
+        await postServerData("http://localhost:5000/api/result", resultData);
+        console.log("Data posted successfully.");
+      } catch (error) {
+        console.error("Error posting server data:", error);
+      }
+    };
+
+    fetchDataAndPostIfNecessary();
+  }, [resultData]); // Depend on resultData, assuming this doesn't change frequently outside conditions
 };

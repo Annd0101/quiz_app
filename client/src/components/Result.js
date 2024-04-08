@@ -14,24 +14,38 @@ import {
 import { resetAllAction } from "../redux/question_reducer";
 import { resetResultAction } from "../redux/result_reducer";
 import { usePublishResult } from "../hooks/setResult";
-
+import AchievementDialog from "./AchievementDialog";
 export default function Result() {
   const dispatch = useDispatch();
+  const [achievements, setAchievements] = useState([]);
+  const [showAchievement, setShowAchievement] = useState(true);
   const {
     questions: { queue, answers },
     result: { result, userId, minute, second }
   } = useSelector((state) => state);
-
   const totalPoints = queue.length * 10;
   const attempts = attempts_Number(result);
   const earnPoints = earnPoints_Number(result, answers, 10);
   const flag = flagResult(totalPoints, earnPoints);
 
+  useEffect(() => {
+    const newAchievements = [];
+    // Example achievement check
+    if (earnPoints === 50) {
+      newAchievements.push("Quiz Master");
+      setAchievements(newAchievements);
+    }
+    // Add more checks for other achievements here
+  }, [earnPoints]);
+  const handleDialogClose = () => {
+    setShowAchievement(false);
+  };
   /** store user result */
+
   usePublishResult({
     result,
     username: userId,
-    attempts,
+    attempts: result.length, // Assuming you have a way to calculate attempts
     points: earnPoints,
     achived: flag ? "Passed" : "Failed",
     minutes: minute,
@@ -45,6 +59,13 @@ export default function Result() {
 
   return (
     <div className='container'>
+      {achievements.length > 0 && (
+        <AchievementDialog
+          show={showAchievement}
+          achievement='Quiz Master'
+          onClose={handleDialogClose}
+        />
+      )}
       <h1 className='title text-light'>Quiz Application</h1>
 
       <div className='result flex-center'>

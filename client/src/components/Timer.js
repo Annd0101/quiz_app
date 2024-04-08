@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-export default function QuizTimer({ updateTime }) {
+const QuizTimer = ({ updateTime }) => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
 
@@ -29,4 +29,5 @@ export default function QuizTimer({ updateTime }) {
       Time: {minutes} minutes {seconds} seconds
     </div>
   );
-}
+};
+export default React.memo(QuizTimer);

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getServerData } from "../helper/helper";
-
+import { useSelector } from "react-redux";
 export default function ResultTable() {
   const [data, setData] = useState([]);
   const [effectRunCount, setEffectRunCount] = useState(0);
+
   useEffect(() => {
     if (effectRunCount < 5) {
-      console.log("mount");
       getServerData("http://localhost:5000/api/result", (res) => {
         setData(res);
       });
@@ -23,6 +23,8 @@ export default function ResultTable() {
             <td>Name</td>
             <td>Attemps</td>
             <td>Earn Points</td>
+
+            <td>Time</td>
             <td>Result</td>
           </tr>
         </thead>
@@ -34,14 +36,24 @@ export default function ResultTable() {
               </td>
             </tr>
           ) : (
-            data.map((v, i) => (
-              <tr className='table-body' key={i}>
-                <td>{v?.username || ""}</td>
-                <td>{v?.attempts || 0}</td>
-                <td>{v?.points || 0}</td>
-                <td>{v?.achived || ""}</td>
-              </tr>
-            ))
+            data
+              .sort((a, b) => {
+                if (a.points === b.points) {
+                  return a.minutes + a.seconds - (b.minutes + b.seconds); // For the same score, lower time ranks higher
+                }
+                return b.points - a.points; // Otherwise, higher score ranks higher
+              })
+              .map((v, i) => (
+                <tr className='table-body' key={i}>
+                  <td>{v?.username || ""}</td>
+                  <td>{v?.attempts || 0}</td>
+                  <td>{v?.points || 0}</td>
+                  <td>
+                    {v?.minutes || 0}m {v?.seconds || 0}s
+                  </td>
+                  <td>{v?.achived || ""}</td>
+                </tr>
+              ))
           )}
         </tbody>
       </table>
