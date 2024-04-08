@@ -11,7 +11,13 @@ const app = express();
 mongoose.set("strictQuery", true);
 /** app middlewares */
 app.use(morgan("tiny"));
-app.use(cors());
+app.use(
+  cors({
+    origin: ["quiz-app-backend-zeta.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true
+  })
+);
 app.use(express.json());
 config();
 
