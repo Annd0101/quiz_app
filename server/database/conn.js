@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
+import "dotenv/config";
 export default async function connect() {
-  await mongoose.connect(
-    "mongodb+srv://ducanco6789:x5Rcqxo4XRBEPAN9@quiz.g06pvfg.mongodb.net/?retryWrites=true&w=majority"
-  );
+  await mongoose.connect(process.env.MONGO_URL);
   console.log("Database Connected");
 }

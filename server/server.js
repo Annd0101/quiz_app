@@ -16,7 +16,7 @@ app.use(express.json());
 config();
 
 /** appliation port */
-const port = 5000;
+const port = process.env.PORT;
 
 /** routes */
 app.use("/api", router); /** apis */
