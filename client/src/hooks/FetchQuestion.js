@@ -21,7 +21,7 @@ export const useFetchQuestion = () => {
     (async () => {
       try {
         const [{ questions, answers }] = await getServerData(
-          "https://quiz-app-backend-l1fn5n0y4-annd0101s-projects.vercel.app/api/questions",
+          " https://quiz-app-71pc.onrender.com/api/questions",
           (data) => data
         );
 
