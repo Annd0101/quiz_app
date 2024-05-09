@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getServerData } from "../helper/helper";
-import { useSelector } from "react-redux";
 export default function ResultTable() {
   const [data, setData] = useState([]);
   const [effectRunCount, setEffectRunCount] = useState(0);

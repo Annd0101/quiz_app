@@ -12,7 +12,9 @@ router
   .post(controller.insertQuestions) /** POST Request */
   .delete(controller.dropQuestions); /** DELETE Request */
 
-router
+  /** Result Routes API */ 
+
+  router
   .route("/result")
   .get(controller.getResult)
   .post(controller.storeResult)
